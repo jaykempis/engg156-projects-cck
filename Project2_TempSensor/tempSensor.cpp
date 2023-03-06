@@ -42,7 +42,7 @@ void helpCMD(){
 int main(){
     string cmd;
 
-    double tempIn;
+    double tempIn, rVal, tempOut;
     double tnull = 293.15;
 
     do{
@@ -62,7 +62,10 @@ int main(){
             cout << "Ro = " << rNull(tnull) << endl;
             cout << "β = " << solveBeta() << endl;
             cout << "==========================\n";
-            rTemp(stod(cmd),tnull); 
+            rVal = rTemp(stod(cmd),tnull);
+            
+            tempOut = (solveBeta()*tnull)/(((log(rVal/rNull(tnull)))*tnull)+solveBeta());
+            cout << "T = " << tempOut << " K\n";
         }
         else if (cmd == "exit")
         {
