@@ -1,7 +1,40 @@
+#include <stdio.h>
 #include <iostream>
+#include <iomanip>
+#include <math.h>
+#include <sstream>
 #include <cstring>
 
+
 using namespace std;
+
+double solveBeta(){
+    double beta;
+    double kelvin0 = 273.15, kelvin25 = 298.15;
+    beta = (log(3))/((1/kelvin0)-(1/kelvin25));
+    //cout <<"Beta: " <<beta << endl;
+    return beta;
+}
+
+double rNull(double tnull){
+    double rnull, powerFactor;
+    double kelvin0 = 273.15;
+    powerFactor = solveBeta() * ((1/kelvin0)-(1/tnull));
+    rnull = (3000.0) / (exp(powerFactor));
+    //cout <<"Ro: " <<rnull << endl;
+    return rnull;
+}
+
+double rTemp(double tempIn, double tnull){
+    double rT;
+    double kelvinO = 273.1500;
+    double powerFactor = solveBeta()*((1.000/tempIn)-(1.000/tnull))*1.000;
+    rT = rNull(tnull)*1.0000*exp(powerFactor);
+    //cout <<"PowerFactor: " <<powerFactor << endl;
+    //cout <<"Ro: " <<rNull(tnull) << endl;
+    cout << "R(" << tempIn << ")= "<<rT <<endl;
+    return rT;
+}
 
 double hexToDec(char hexNumber[]) 
 {
@@ -44,20 +77,59 @@ double ADCconvert(double ADC)
 
 }
 
-int main() 
-{
-    char hexNumber[80];
-    // Read the hexadecimal number as a character array
-    cout << "Enter hexadecimal number: ";
-    cin >> hexNumber;
+void helpCMD(){
+    cout << "Insert Help dialogue" << endl;
+}
 
-    double decValue = hexToDec(hexNumber);
+int main(){
+    string cmd, tempIn;
 
-    cout << hexNumber << " in decimal format = " << decValue << "\n";
+    double rVal, tempOut;
+    double tnull = 293.15;
 
-    double resistancevalue = ADCconvert(decValue);
+    do{
+        cout<<"\n[CMD] : ";
+        getline(cin, cmd);
 
-    cout << "\nThe Resistance of " << hexNumber << " is " << resistancevalue << endl;
+        stringstream cc(cmd);
 
+        if (cmd == "help")
+        {
+            helpCMD();
+        }
+        else if (cmd == "res")
+        {
+            cout << "Input Temperature in Kelvin: ";
+            getline(cin, tempIn);
+            cout << "T_in = " << stod(tempIn) << " K\n";
+            cout << "To = " << tnull << " K\n";
+            cout << "Ro = " << rNull(tnull) << endl;
+            cout << "β = " << solveBeta() << endl;
+            cout << "==========================\n";
+            rVal = rTemp(stod(tempIn),tnull);
+        }
+        else if (cmd == "adc")
+        { 
+            char hexNumber[80];
+            cout << "Enter hexadecimal number: ";
+            cin >> hexNumber;
+
+            double decValue = hexToDec(hexNumber);
+
+            cout << hexNumber << " in decimal format = " << decValue << "\n";
+            double resistancevalue = ADCconvert(decValue);
+            //replace rVal with ADC resistance calc
+            tempOut = (solveBeta()*tnull)/(((log(resistancevalue/rNull(tnull)))*tnull)+solveBeta());
+            cout << "T_out = " << tempOut << " K\n";
+        
+        }
+        else if (cmd == "exit")
+        {
+            cout << "Exiting..." << endl;
+        }
+        else cout<<"Invalid Command. " <<  
+        "Type 'help' for a list of commands."<<endl;
+    }
+    while (cmd != "exit");
 
 }
