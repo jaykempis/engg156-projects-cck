@@ -42,7 +42,7 @@ void helpCMD(){
 int main(){
     string cmd;
 
-    float tempIn;
+    double tempIn;
     double tnull = 293.15;
 
     do{
