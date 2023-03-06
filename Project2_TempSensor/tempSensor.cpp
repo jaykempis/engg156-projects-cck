@@ -57,7 +57,7 @@ int main(){
         }
         else if (cc >> tempIn)
         { 
-            cout << "T = " << stod(cmd) << " K\n";
+            cout << "T_in = " << stod(cmd) << " K\n";
             cout << "To = " << tnull << " K\n";
             cout << "Ro = " << rNull(tnull) << endl;
             cout << "β = " << solveBeta() << endl;
@@ -65,7 +65,7 @@ int main(){
             rVal = rTemp(stod(cmd),tnull);
             
             tempOut = (solveBeta()*tnull)/(((log(rVal/rNull(tnull)))*tnull)+solveBeta());
-            cout << "T = " << tempOut << " K\n";
+            cout << "T_out = " << tempOut << " K\n";
         }
         else if (cmd == "exit")
         {
