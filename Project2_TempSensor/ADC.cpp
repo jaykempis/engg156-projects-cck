@@ -127,7 +127,9 @@ int main(){
             //replace rVal with ADC resistance calc
             tempOut = (solveBeta()*tnull)/(((log(resistancevalue/rNull(tnull)))*tnull)+solveBeta());
             cout << "T_out = " << tempOut << " K\n";
-        
+
+            cin.clear();
+            cin.clear();
         }
         else if (cmd == "exit")
         {
