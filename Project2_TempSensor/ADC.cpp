@@ -77,8 +77,13 @@ double ADCconvert(double ADC)
 
 }
 
-void helpCMD(){
-    cout << "Insert Help dialogue" << endl;
+void helpCMD()
+{
+  cout<<"\nLists of possible commands: \n"
+      <<"* help            - displays the lists of commands \n"
+      <<"* res            - Resistance/Temperature Operations"
+      <<"* adc            - ADC Operations \n"
+      <<"* exit            - closes the program"<<endl;
 }
 
 int main(){
@@ -101,6 +106,7 @@ int main(){
         {
             cout << "Input Temperature in Kelvin: ";
             getline(cin, tempIn);
+
             cout << "T_in = " << stod(tempIn) << " K\n";
             cout << "To = " << tnull << " K\n";
             cout << "Ro = " << rNull(tnull) << endl;
