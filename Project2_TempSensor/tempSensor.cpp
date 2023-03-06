@@ -57,12 +57,13 @@ int main(){
         }
         else if (cc >> tempIn)
         { 
-            cout << "T_in = " << stod(cmd) << " K\n";
+            cc >>setprecision(5)>> tempIn;
+            cout << "T_in = " <<tempIn<< " K\n";
             cout << "To = " << tnull << " K\n";
             cout << "Ro = " << rNull(tnull) << endl;
             cout << "β = " << solveBeta() << endl;
             cout << "==========================\n";
-            rVal = rTemp(stod(cmd),tnull);
+            rVal = rTemp(stod(cmd)*1.00000,tnull);
             
             tempOut = (solveBeta()*tnull)/(((log(rVal/rNull(tnull)))*tnull)+solveBeta());
             cout << "T_out = " << tempOut << " K\n";
