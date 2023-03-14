@@ -17,6 +17,11 @@ double Celsius2Kelvin(double temp_celsius)
   return temp_celsius + 273.15;
 }
 
+double Kelvin2Celsius(double temp_kelvin)
+{
+  return temp_kelvin - 273.15;
+}
+
 double solveBeta(double T_0)
 {
   double N = ((1/273.15)-(1/T_0))-((1/298.15)-(1/T_0));
@@ -35,7 +40,8 @@ double rNull(double T_0){
 double rTemp(double tempIn, double T_0){
   double rT;
   double kelvinO = 273.1500;
-  double powerFactor = solveBeta(T_0)*((1.000/tempIn)-(1.000/T_0))*1.000;
+  double powerFactor = solveBeta(T_0)*((1.000/tempIn)
+                       -(1.000/T_0))*1.000;
   rT = rNull(T_0)*1.0000*exp(powerFactor);
   //cout <<"PowerFactor: " <<powerFactor << endl;
   //cout <<"Ro: " <<rNull(T_0) << endl;
@@ -43,30 +49,10 @@ double rTemp(double tempIn, double T_0){
   return rT;
 }
 
-double hexToDec(char hexNumber[]) 
-{
-  double decimalNumber = 0;
-  int len = strlen(hexNumber);
-  for (int base = 1, i=(len-1); i>=0; i--, base *= 16) 
-  {
-    // Get the hex digit in upper case 
-    char digit = toupper(hexNumber[i]);
-    if ( digit >= '0' && digit <='9' ) 
-    {
-      decimalNumber += (digit - 48)*base;
-    }
-    else if ( digit >='A' && digit <='F' ) 
-    {
-      decimalNumber += (digit - 55)*base;
-    }
-  }
-  return decimalNumber;
-}
-
 double ADCconvert(double ADC)
 {
   double voltage;
-  cout << "Input ADC Value in Decimal: " << ADC << endl;
+  cout <<ADC<<" in Decimal: " << ADC << endl;
   voltage = ADC * (5.00/65535.00);
   cout << "Voltage: " << voltage << endl;
 
@@ -87,7 +73,7 @@ void helpCMD()
 {
   cout<<"\nLists of possible commands: \n"
       <<"* help            - displays the lists of commands \n"
-      <<"* res            - Resistance/Temperature Operations"
+      <<"* res            - Resistance/Temperature Operations\n"
       <<"* adc            - ADC Operations \n"
       <<"* exit            - closes the program"<<endl;
 }
@@ -111,20 +97,8 @@ int main(){
     }
     else if (cmd == "res")
     {	  
-	  /* 
-      cout << "Input Temperature in Kelvin: ";
-      getline(cin, tempIn);
-
-      cout << "T_in = " << stod(tempIn) << " K\n";
-      cout << "To = " << T_0 << " K\n";
-      cout << "Ro = " << rNull(T_0) << endl;
-      cout << "β = " << solveBeta(T_0) << endl;
-      cout << "==========================\n";
-      rVal = rTemp(stod(tempIn),T_0);
-	  */
-	  
-	  //MODIFIED TO OUTPUT ALL EQUIVALENT RESISTANCES AT ONCE
-	  double TempsCel [10] = {-45, -25, -5, 15, 35, 55, 75, 90, 105, 120};
+	  double TempsCel [10] = {-45, -25, -5, 15, 35, 
+	                           55, 75, 90, 105, 120};
       double TempsKel [10];
       double Resistance [10];
 	  
@@ -134,7 +108,8 @@ int main(){
 	  for (int i = 0; i < 10; i++)
       {
         TempsKel[i] = Celsius2Kelvin(TempsCel[i]);
-	    cout<<"Temperature : "<<TempsCel[i]<<"C \t; "<<TempsKel[i]<<"K | ";
+	    cout<<"Temperature : "<<TempsCel[i]<<"C \t; "
+		    <<TempsKel[i]<<"K | ";
 	    Resistance[i] = R_0*(exp(beta*((1/TempsKel[i])-(1/T_0))));
 	    cout<<"R"<<i<<" : "<<Resistance[i]<<endl;
       }
@@ -142,20 +117,19 @@ int main(){
 	
     else if (cmd == "adc")
     { 
-      char hexNumber[80];
-      cout << "Enter hexadecimal number: ";
-      cin >> hexNumber;
-
-      double decValue = hexToDec(hexNumber);
-
-      cout << hexNumber << " in decimal format = " << decValue << "\n";
-      double resistancevalue = ADCconvert(decValue);
-      //replace rVal with ADC resistance calc
-      tempOut = (solveBeta(T_0)*T_0)/(((log(resistancevalue/rNull(T_0)))*T_0)+solveBeta(T_0));
-      cout << "T_out = " << tempOut << " K\n";
-      cin.clear();
-      cin.clear();
-    }
+	  string hexNumber[10] = {"F9B8", "EB11", "CB00", "9A48", "6761",
+	                        "400F", "26C0", "1ABE", "12B9", "0D58"};
+  	  for (int i = 0; i < 10; i++)
+      {
+        double decValue = stoi(hexNumber[i], 0, 16);
+	    double resistancevalue = ADCconvert(decValue);
+	    //Replace rVal with ADC resistance calc
+        tempOut = (solveBeta(T_0)*T_0)/
+		    (((log(resistancevalue/rNull(T_0)))*T_0)+solveBeta(T_0));
+        cout << "T_out = " << tempOut <<" K;\t"
+		     <<Kelvin2Celsius(tempOut)<<"degree Celsius"<<endl;
+      }
+	}
     else if (cmd == "exit")
     {
       cout << "Exiting..." << endl;
