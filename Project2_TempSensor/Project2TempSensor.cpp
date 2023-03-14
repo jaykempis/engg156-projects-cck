@@ -52,19 +52,19 @@ double rTemp(double tempIn, double T_0){
 double ADCconvert(double ADC)
 {
   double voltage;
-  cout <<ADC<<" in Decimal: " << ADC << endl;
+  //cout <<ADC<<" in Decimal: " << ADC << endl;
   voltage = ADC * (5.00/65535.00);
-  cout << "Voltage: " << voltage << endl;
+  cout << "Voltage: " << voltage <<" V";
 
   //calculate current over resistor
   double current;
   current = (5.00-voltage)/1000.00;
-  cout << "Current: " << current << endl;
+  cout << "\t Current: " << current <<" A"<< endl;
 
   //calculate resistance
   double resistance;
   resistance = voltage/current;
-  cout << "Resistnace: " << resistance << endl;
+  cout << "Resistnace: " << resistance <<" Ω"<< endl;
 
   return resistance;
 }
@@ -126,8 +126,9 @@ int main(){
 	    //Replace rVal with ADC resistance calc
         tempOut = (solveBeta(T_0)*T_0)/
 		    (((log(resistancevalue/rNull(T_0)))*T_0)+solveBeta(T_0));
-        cout << "T_out = " << tempOut <<" K;\t"
-		     <<Kelvin2Celsius(tempOut)<<"degree Celsius"<<endl;
+        cout << "\nT_out = " << tempOut <<" K;\t"
+		     <<Kelvin2Celsius(tempOut)<<" ºC"<<endl;
+         cout <<"---------------------------------"<< endl;
       }
 	}
     else if (cmd == "exit")
