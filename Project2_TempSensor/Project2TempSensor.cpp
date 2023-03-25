@@ -1,6 +1,10 @@
-//ENGG 126
-//Project 2: Matrix Multiplication Speed Test
-//by: Iris Carson, Antonio Castro, and Joshua Kempis
+//ENGG 156
+/*ENGG 156 - Project 2 
+Interfacing a Temperature Sensor
+Iris Carson, Antonio Castro, & Joshua Kempis
+This project is submitted in partial fulfillment
+of the requirements for ENGG 156.
+*/
 //--------------------------------------------------------------------
 #include <stdio.h>
 #include <iostream>
